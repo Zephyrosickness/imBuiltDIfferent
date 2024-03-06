@@ -1,12 +1,11 @@
 //Allows us to use the FileChooser wizard GUI to pick files
 import javax.swing.*;
-
+//Needed imports for working w/ IO (input/output)
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
 import static java.nio.file.StandardOpenOption.CREATE;
 
 public class  WritingFiles {
@@ -19,14 +18,6 @@ public class  WritingFiles {
         recs.add("Sample data Line 2");
         recs.add("Sample data Line 3");
 
-        //Creates a JFileChooser object that will open the JFileChooser Wizard GUI
-        //Allows user to search for files that they want read by the program
-        //Must easier for the user than typing in a file directory
-        JFileChooser chooser = new JFileChooser();
-
-        File selectedFile; //file the user ends up choosing to open will be stored here
-        String rec = ""; //records each line that is read in the file
-
         //This variable will hold the users current working directory (program folder)
         //"user.dir" is shorthand for current working directory (project folder)
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -34,7 +25,7 @@ public class  WritingFiles {
         //In this case, the file will be stored in the src folder and the name is already chosen
         Path file = Paths.get(workingDirectory.getPath() + "\\src\\data.txt");
 
-        //The try block will prompt the user to open a file
+        //The try block will attempt to write a new txt file
         //If an error occurs in this block, the catch block will handle the IO Exception
         try {
             //OutputStream is needed in order to create our Buffered Writer
@@ -57,6 +48,7 @@ public class  WritingFiles {
         }
         //This catch block is hit for a variety of IO Exceptions
         catch (IOException e) {
+            //Prints the error along with additional info related to the error
             e.printStackTrace();
         }
     }

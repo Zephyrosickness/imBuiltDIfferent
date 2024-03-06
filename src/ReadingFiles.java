@@ -1,6 +1,6 @@
 //Allows us to use the FileChooser wizard GUI to pick files
 import javax.swing.*;
-
+//Needed imports for working w/ IO (input/output)
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,11 +12,8 @@ public class  ReadingFiles {
 
         //Creates a JFileChooser object that will open the JFileChooser Wizard GUI
         //Allows user to search for files that they want read by the program
-        //Must easier for the user than typing in a file directory
+        //Much easier for the user than typing in a file directory manually
         JFileChooser chooser = new JFileChooser();
-
-        File selectedFile; //file the user ends up choosing to open will be stored here
-        String rec = ""; //records each line that is read in the file
 
         //The try block will prompt the user to open a file
         //If an error occurs in this block, the catch block will handle the IO Exception
@@ -32,7 +29,7 @@ public class  ReadingFiles {
             //Checks to see if the user picks a file in the file chooser wizard
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 //Stores user selected file
-                selectedFile = chooser.getSelectedFile();
+                File selectedFile = chooser.getSelectedFile();
                 //Holds the path to the selected file
                 Path file = selectedFile.toPath();
 
@@ -42,11 +39,14 @@ public class  ReadingFiles {
                 InputStream in = new BufferedInputStream(Files.newInputStream(file, CREATE));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-                //Moving through file and reading
+
                 //Starts at line 0 and moves line by line through the file
-                //Rec holds what the reader finds on the line
                 int line = 0;
+                //Rec holds what the reader finds on the line
+                String rec = "";
+                //Prints File Path of selected File
                 System.out.println("File Path: " + file);
+                //Moving through file, reading, and printing each line of the selected file
                 while (reader.ready()) {
                     rec = reader.readLine();
                     line++;
@@ -56,8 +56,9 @@ public class  ReadingFiles {
                 reader.close(); // must close the file to seal it and clear buffer
                 System.out.println("\n\nData file read!"); //Success message
             } else {
+                //This else statement is hit when the user closes the JFileChooser Wizard without selecting file
                 System.out.println("File not selected. Please restart program.");
-                System.exit(0);
+                System.exit(0); //Shuts down program
             }
         }
         //This catch block is hit when the user file the user attempts to open a file that can not be found
@@ -68,6 +69,7 @@ public class  ReadingFiles {
         }
         //This catch block is hit for all other IO Exceptions
         catch (IOException e) {
+            //Prints the error along with additional info related to the error
             e.printStackTrace();
         }
     }
