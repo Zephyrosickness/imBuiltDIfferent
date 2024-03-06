@@ -1,10 +1,12 @@
+//Allows us to use the FileChooser wizard GUI to pick files
 import javax.swing.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardOpenOption.CREATE;
 
-public class ReadingFiles {
+public class  ReadingFiles {
     //need to add the "throws IOException" after typical main phrase
     public static void main(String[] args) throws IOException   {
 
@@ -20,13 +22,14 @@ public class ReadingFiles {
         //If an error occurs in this block, the catch block will handle the IO Exception
         try {
             //This variable will hold the users current working directory (program folder)
+            //"user.dir" is shorthand for current working directory (project folder)
             File workingDirectory = new File(System.getProperty("user.dir"));
 
             //This will make the JFileChooser GUI default to look in the workingDirectory first
             //User can still navigate out of this folder if desired
             chooser.setCurrentDirectory(workingDirectory);
 
-            //What does this mean???
+            //Checks to see if the user picks a file in the file chooser wizard
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 //Stores user selected file
                 selectedFile = chooser.getSelectedFile();
@@ -43,14 +46,18 @@ public class ReadingFiles {
                 //Starts at line 0 and moves line by line through the file
                 //Rec holds what the reader finds on the line
                 int line = 0;
+                System.out.println("File Path: " + file);
                 while (reader.ready()) {
                     rec = reader.readLine();
                     line++;
                     //Prints the line # and the contents of the line
-                    System.out.printf("\nLine %4d: %-60s ", line, rec);
+                    System.out.printf("\nLine%4d: %-60s ", line, rec);
                 }
                 reader.close(); // must close the file to seal it and clear buffer
                 System.out.println("\n\nData file read!"); //Success message
+            } else {
+                System.out.println("File not selected. Please restart program.");
+                System.exit(0);
             }
         }
         //This catch block is hit when the user file the user attempts to open a file that can not be found
