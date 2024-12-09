@@ -16,13 +16,15 @@ public class  ReadingFiles {
         JFileChooser chooser = new JFileChooser();
 
         //The try block will prompt the user to open a file
-        //If an error occurs in this block, the catch block will handle the IO Exception
+        //If an error occurs in this try block, the catch block will handle the IO Exception
         try {
-            //This variable will hold the users current working directory (program folder)
+            //This variable will hold the users current working directory (project folder)
             //"user.dir" is shorthand for current working directory (project folder)
+            //This only assigns the address to the variable
             File workingDirectory = new File(System.getProperty("user.dir"));
 
             //This will make the JFileChooser GUI default to look in the workingDirectory first
+            //This actually points the chooser at the desired address
             //User can still navigate out of this folder if desired
             chooser.setCurrentDirectory(workingDirectory);
 
@@ -30,7 +32,7 @@ public class  ReadingFiles {
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 //Stores user selected file
                 File selectedFile = chooser.getSelectedFile();
-                //Holds the path to the selected file
+                //Holds the path to the selected file (think of this as its address)
                 Path file = selectedFile.toPath();
 
                 //InputStream is needed in order to create our Buffered Reader
@@ -39,13 +41,18 @@ public class  ReadingFiles {
                 InputStream in = new BufferedInputStream(Files.newInputStream(file, CREATE));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
+                /*
+                    Everything starting here is what is actually displayed back to the user
+                    This is typically where you will make changes.
+                */
 
+                //Prints File Path of selected File
+                System.out.println("File Path: " + file);
                 //Starts at line 0 and moves line by line through the file
                 int line = 0;
                 //Rec holds what the reader finds on the line
                 String rec = "";
-                //Prints File Path of selected File
-                System.out.println("File Path: " + file);
+
                 //Moving through file, reading, and printing each line of the selected file
                 while (reader.ready()) {
                     rec = reader.readLine();
@@ -55,6 +62,11 @@ public class  ReadingFiles {
                 }
                 reader.close(); // must close the file to seal it and clear buffer
                 System.out.println("\n\nData file read!"); //Success message
+
+                 /*
+                    This is where the program stops displaying the read file to the user
+                */
+
             } else {
                 //This else statement is hit when the user closes the JFileChooser Wizard without selecting file
                 System.out.println("File not selected. Please restart program.");

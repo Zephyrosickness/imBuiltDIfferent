@@ -18,11 +18,12 @@ public class  WritingFiles {
         recs.add("Sample data Line 2");
         recs.add("Sample data Line 3");
 
-        //This variable will hold the users current working directory (program folder)
+        //This variable will hold the users current working directory (project folder)
         //"user.dir" is shorthand for current working directory (project folder)
         File workingDirectory = new File(System.getProperty("user.dir"));
         //Path is automatically set for user
         //In this case, the file will be stored in the src folder and the name is already chosen
+        //You may want to change the file name or give the user the ability to choose their own file name
         Path file = Paths.get(workingDirectory.getPath() + "\\src\\data.txt");
 
         //The try block will attempt to write a new txt file
